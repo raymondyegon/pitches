@@ -2,3 +2,4 @@ virtual/
 .vscode
 instance/
 *.pyc
+start.sh
