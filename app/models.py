@@ -78,7 +78,6 @@ class Comment(db.Model):
     pitch_id = db.Colimn(db.integer)
     comment = db.Column(db.String(1000))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    
 
     def save_commit(self):
         db.session.add(self)
@@ -87,6 +86,14 @@ class Comment(db.Model):
     # getting a comment
     @classmethod
     def get_comments(cls, id):
-        comments = Comment.query.filter_by(pitch_id = id).all()
-        
+        comments = Comment.query.filter_by(pitch_id=id).all()
+
         return comments
+
+
+class PhotoProfile(db.Model):
+    __tablename__ = 'profile_photos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    pic_path = db.Column(db.String())
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
