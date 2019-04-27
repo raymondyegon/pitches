@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String)
     password_hash = db.Column(db.String(255))
+    date_joined = db.Column(db.DateTime,default=datetime.utcnow)
 
     pitches = db.relationship('Pitch', backref='user', lazy="dynamic")
 
@@ -69,6 +70,17 @@ class Pitch(db.Model):
         pitch = Pitch.query.filter_by(id=id).first()
 
         return pitch
+    
+    @classmethod
+    def count_pitches(cls,uname):
+        user = User.query.filter_by(username=uname).first()
+        pitches = Pitch.query.filter_by(user_id=user.id).all()
+
+        pitches_count = 0
+        for pitch in pitches:
+            pitches_count += 1
+
+        return pitches_count
 
 
 class Comment(db.Model):
