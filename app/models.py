@@ -63,9 +63,30 @@ class Pitch(db.Model):
 
         return pitches
 
-    # gettinga single pitch by id
+    # getting a single pitch by id
     @classmethod
     def get_pitch(cls, id):
         pitch = Pitch.query.filter_by(id=id).first()
 
         return pitch
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    pitch_id = db.Colimn(db.integer)
+    comment = db.Column(db.String(1000))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+
+    def save_commit(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # getting a comment
+    @classmethod
+    def get_comments(cls, id):
+        comments = Comment.query.filter_by(pitch_id = id).all()
+        
+        return comments
